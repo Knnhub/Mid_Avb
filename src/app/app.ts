@@ -63,7 +63,7 @@ export class App {
 
   async loadGames() {
     try {
-      const response = await fetch('/assets/games.json');
+      const response = await fetch('/assets/games/games.json');
       const data = await response.json();
       this.games.set(data);
     } catch (error) {

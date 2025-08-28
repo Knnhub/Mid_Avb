@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Free Fire",
+    "image": "assets/images/ff.png",
+    "details": "เกมมือถือแนว Battle Royale เอาชีวิตรอด"
+  },
+  {
+    "id": 2,
+    "name": "Arena of Valor (RoV)",
+    "image": "assets/images/rov.png",
+    "details": "เกมมือถือแนว MOBA ที่ได้รับความนิยมสูง"
+  },
+  {
+    "id": 3,
+    "name": "Speed Drifters",
+    "image": "assets/images/sd.png",
+    "details": "เกมแข่งรถที่มาพร้อมการควบคุมที่สนุกสนาน"
+  },
+  {
+    "id": 4,
+    "name": "Call of Duty: Mobile",
+    "image": "assets/images/cd.png",
+    "details": "เกมยิงปืนสุดมันส์ที่มาพร้อมโหมด Battle Royale"
+  },
+  {
+    "id": 5,
+    "name": "Black Clover",
+    "image": "assets/images/bc.png",
+    "details": "เกม RPG จากอนิเมะชื่อดัง Black Clover"
+  }
+]
