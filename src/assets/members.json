@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "email": "user1@garena.com",
+    "password": "password123",
+    "fullname": "Nisit 1",
+    "image": "https://placehold.co/100x100/3498db/ffffff?text=N1",
+    "role": "player"
+  },
+  {
+    "id": 2,
+    "email": "user2@garena.com",
+    "password": "password123",
+    "fullname": "Nisit 2",
+    "image": "https://placehold.co/100x100/e74c3c/ffffff?text=N2",
+    "role": "player"
+  }
+]
