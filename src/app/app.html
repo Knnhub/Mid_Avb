@@ -1,55 +1,109 @@
-@if (showLoginScreen()) {
-  <div class="fixed inset-0 flex items-center justify-center p-4 z-50">
-    <div class="absolute inset-0 bg-gray-950 bg-opacity-75 backdrop-blur-sm"></div>
-    <div class="relative w-full max-w-sm mx-auto bg-gray-800 rounded-lg shadow-lg p-6 space-y-4 text-white transform transition-all duration-300 scale-95 md:scale-100">
-      <div class="text-center mb-6">
-        <h2 class="text-3xl font-bold">เข้าสู่ระบบ</h2>
-        <p class="text-gray-400 text-sm mt-2">กรุณากรอกอีเมลและรหัสผ่านเพื่อเข้าสู่ระบบ</p>
-      </div>
+<header class="main-header">
+  <div class="logo">
+    <img src="assets/garena.png" alt="Garena Logo">
+  </div>
+  <nav class="main-nav">
+    @if (isLoggedIn()) {
+      <a href="#" (click)="logout()">ออกจากระบบ</a>
+      <a href="#" (click)="showProfile()">โปรไฟล์</a>
+      <a href="#" (click)="showHome()">รายการเกม</a>
+    } @else {
+      <a href="#" (click)="showLogin()">เข้าสู่ระบบ</a>
+      <a href="#" (click)="showHome()">สมัครสมาชิก</a>
+    }
+  </nav>
+</header>
 
-      <form class="space-y-4" (ngSubmit)="login()">
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-400 mb-1">อีเมล</label>
-          <input 
-            type="email" 
-            id="email" 
-            class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500"
-            [(ngModel)]="loginEmail" 
-            name="email"
-            placeholder="ชื่อผู้ใช้@example.com"
-          >
-        </div>
-        
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-400 mb-1">รหัสผ่าน</label>
-          <input 
-            type="password" 
-            id="password" 
-            class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500"
-            [(ngModel)]="loginPassword" 
-            name="password"
-            placeholder="กรอกรหัสผ่านของคุณ"
-          >
-        </div>
-
-        <button 
-          type="submit" 
-          class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-800"
-        >
-          เข้าสู่ระบบ
-        </button>
-
+<main>
+  @if (showLoginScreen()) {
+    <div class="login-page">
+      <div class="login-card">
+        <h2>เข้าสู่ระบบ</h2>
+        <form (ngSubmit)="login()">
+          <div class="form-group">
+            <label for="email">อีเมล</label>
+            <input type="email" id="email" [(ngModel)]="loginEmail" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">รหัสผ่าน</label>
+            <input type="password" id="password" [(ngModel)]="loginPassword" name="password" required>
+          </div>
+          <button type="submit">เข้าสู่ระบบ</button>
+        </form>
         @if (loginError()) {
-          <div class="text-red-400 text-sm text-center mt-2">{{ loginError() }}</div>
+          <p class="error">{{ loginError() }}</p>
         }
-      </form>
-
-      <div class="text-center mt-4 text-sm">
-        <p class="text-gray-400">ยังไม่มีบัญชีใช่ไหม? <a href="#" class="text-orange-500 hover:underline">สมัครสมาชิก</a></p>
-        <p class="text-gray-400 mt-1">
-          <a href="#" class="text-orange-500 hover:underline" (click)="showLoginScreen.set(false)">กลับสู่หน้าหลัก</a>
-        </p>
+        <div class="card-links">
+          <a href="#" (click)="showHome()">สมัครสมาชิก</a>
+          <a href="#" (click)="showHome()">กลับสู่หน้าหลัก</a>
+        </div>
       </div>
     </div>
-  </div>
-}
+  } @else if (showProfileScreen()) {
+    <div class="profile-page">
+      @if (currentUser()) {
+        <div class="profile-card">
+          <img [src]="currentUser()!.image" [alt]="currentUser()!.fullname" class="profile-image">
+          <h2>{{ currentUser()!.fullname }}</h2>
+          <p><strong>อีเมล:</strong> {{ currentUser()!.email }}</p>
+          <p><strong>บทบาท:</strong> {{ currentUser()!.role }}</p>
+          <button (click)="showHome()">กลับสู่หน้าหลัก</button>
+        </div>
+      }
+    </div>
+  } @else if (showGameDetailScreen()) {
+    <div class="game-detail-page">
+      @if (selectedGame()) {
+        <div class="game-detail-card">
+          <img [src]="selectedGame()!.image" [alt]="selectedGame()!.name" class="game-detail-image">
+          <h1>{{ selectedGame()!.name }}</h1>
+          <p>{{ selectedGame()!.description }}</p>
+          <a [href]="selectedGame()!.link" target="_blank">เว็บไซต์เกม</a>
+          
+          <div class="top-up-form">
+            <h3>เติมเงินด่วน</h3>
+            <form (ngSubmit)="topUp()">
+              <div class="form-group">
+                <label for="userId">ID ผู้ใช้</label>
+                <input type="text" id="userId" [(ngModel)]="topUpUserId" name="userId" required>
+              </div>
+              <div class="form-group">
+                <label for="amount">จำนวนเงิน (บาท)</label>
+                <input type="number" id="amount" [(ngModel)]="topUpAmount" name="amount" required>
+              </div>
+              <button type="submit">เติมเงินด่วน</button>
+            </form>
+          </div>
+          <button class="back-button" (click)="showHome()">กลับสู่หน้ารายการเกม</button>
+        </div>
+      }
+    </div>
+  } @else if (showNotFoundScreen()) {
+    <div class="not-found-page">
+      <div class="not-found-card">
+        <h1>404</h1>
+        <h2>ไม่พบหน้าเพจที่ต้องการ</h2>
+        <p>ขออภัย, หน้าเพจที่คุณพยายามเข้าถึงไม่มีอยู่</p>
+        <button (click)="showHome()">กลับสู่หน้าหลัก</button>
+      </div>
+    </div>
+  } @else {
+    <div class="game-list-container">
+      @if (isLoggedIn() && currentUser()) {
+        <h1 class="welcome-message">เกมแนะนำ</h1>
+        <p class="greeting">สวัสดีคุณ {{ currentUser()!.fullname }}</p>
+      }
+      <div class="game-list">
+        @for (game of games(); track game.id) {
+          <div class="game-card" (click)="selectGame(game)">
+            <img [src]="game.image" [alt]="game.name">
+            <div class="game-info">
+              <h3>{{ game.name }}</h3>
+              <p>{{ game.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</main>

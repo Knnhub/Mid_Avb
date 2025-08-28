@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, signal, afterNextRender } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, afterNextRender, PLATFORM_ID, inject } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
 
 // Interfaces for type safety
 interface Game {
@@ -29,40 +30,39 @@ interface Member {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  // Signals to manage application state
   isLoggedIn = signal(false);
-  showLoginScreen = signal(false); // Initially show the main page
+  showLoginScreen = signal(false);
+  showProfileScreen = signal(false);
+  showGameDetailScreen = signal(false);
   
-  // Signals for login form data and error messages
+  currentUser = signal<Member | null>(null);
   loginEmail = signal('');
   loginPassword = signal('');
   loginError = signal('');
 
-  // Signals to hold data from JSON files
   games = signal<Game[]>([]);
   members = signal<Member[]>([]);
 
-  // Signal to track the currently selected game, if any
   selectedGame = signal<Game | null>(null);
+  topUpUserId = signal('');
+  topUpAmount = signal(0);
+  
+  private platformId = inject(PLATFORM_ID);
 
   constructor() {
-    // This hook ensures that data fetching occurs after the initial render.
-    // This is crucial for fixing the hydration error (NG0502)
-    // by ensuring the DOM structure is consistent on both the server and client.
-    afterNextRender(() => {
+    if (isPlatformBrowser(this.platformId)) {
       this.loadGames();
       this.loadMembers();
-    });
+      const user = localStorage.getItem('currentUser');
+      if (user) {
+        this.currentUser.set(JSON.parse(user));
+        this.isLoggedIn.set(true);
+      }
+    }
   }
 
-  /**
-   * Asynchronously loads game data from the games.json file.
-   * Updates the `games` signal upon successful fetch.
-   * Logs an error to the console if the fetch fails.
-   */
   async loadGames() {
     try {
-      // Use the correct path starting from the root of the assets folder
       const response = await fetch('/assets/games.json');
       const data = await response.json();
       this.games.set(data);
@@ -71,14 +71,8 @@ export class App {
     }
   }
 
-  /**
-   * Asynchronously loads member data from the members.json file.
-   * Updates the `members` signal upon successful fetch.
-   * Logs an error to the console if the fetch fails.
-   */
   async loadMembers() {
     try {
-      // Use the correct path starting from the root of the assets folder
       const response = await fetch('/assets/members.json');
       const data = await response.json();
       this.members.set(data);
@@ -87,54 +81,75 @@ export class App {
     }
   }
 
-  /**
-   * Handles the login logic.
-   * Compares the entered email and password with the members data.
-   * Updates login state and error message accordingly.
-   */
   login() {
-    this.loginError.set(''); // Clear previous errors
+    this.loginError.set('');
     const email = this.loginEmail();
     const password = this.loginPassword();
 
-    // Find the member with matching email and password
     const member = this.members().find(m => m.email === email && m.password === password);
 
     if (member) {
-      // If a member is found, set login state to true and hide login screen
       this.isLoggedIn.set(true);
+      this.currentUser.set(member);
+      localStorage.setItem('currentUser', JSON.stringify(member));
       this.showLoginScreen.set(false);
+      this.showProfileScreen.set(true);
+      this.showGameDetailScreen.set(false);
       console.log('Login successful for:', member.fullname);
     } else {
-      // If no member is found, set an error message
       this.loginError.set('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
     }
   }
 
-  /**
-   * Handles the logout logic.
-   * Resets the login state and shows the login screen.
-   */
   logout() {
     this.isLoggedIn.set(false);
-    this.showLoginScreen.set(true);
-    // Optionally clear form fields
+    this.currentUser.set(null);
+    localStorage.removeItem('currentUser');
+    this.showLoginScreen.set(false);
+    this.showProfileScreen.set(false);
+    this.showGameDetailScreen.set(false);
     this.loginEmail.set('');
     this.loginPassword.set('');
   }
 
-  /**
-   * Displays the details of a selected game.
-   * @param game The Game object to be displayed.
-   */
-  selectGame(game: Game) {
-    this.selectedGame.set(game);
+  showLogin() {
+    if (this.isLoggedIn()) {
+      return;
+    }
+    this.showLoginScreen.set(true);
+    this.showProfileScreen.set(false);
+    this.showGameDetailScreen.set(false);
   }
 
-  /**
-   * Clears the selected game to return to the list view.
-   */
-  clearSelection() {
-    this.selectedGame.set(null);
+  showProfile() {
+    if (!this.isLoggedIn()) {
+      return;
+    }
+    this.showProfileScreen.set(true);
+    this.showLoginScreen.set(false);
+    this.showGameDetailScreen.set(false);
+  }
+
+  showHome() {
+    this.showProfileScreen.set(false);
+    this.showLoginScreen.set(false);
+    this.showGameDetailScreen.set(false);
+  }
+
+  selectGame(game: Game) {
+    if (this.isLoggedIn()) {
+      this.selectedGame.set(game);
+      this.showGameDetailScreen.set(true);
+      this.showProfileScreen.set(false);
+    }
+  }
+
+  topUp() {
+    if (this.selectedGame() && this.topUpUserId() && this.topUpAmount() > 0) {
+      const message = `ทำรายการเติมเกม ${this.selectedGame()!.name} สำหรับผู้ใช้ ID ${this.topUpUserId()} จำนวน ${this.topUpAmount()} บาทสำเร็จ!`;
+      alert(message);
+    } else {
+      alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+    }
   }
 }
