@@ -34,7 +34,7 @@ interface Member {
           <a href="#" class="flex-shrink-0">
             <img 
               class="h-10" 
-              src="/assets/garena-logo.png" 
+              src="/assets/logo-garena.png" 
               alt="โลโก้ Garena">
           </a>
 

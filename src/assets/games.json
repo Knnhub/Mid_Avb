@@ -2,36 +2,29 @@
   {
     "id": 1,
     "name": "Free Fire",
-    "image": "https://placehold.co/300x400/212121/ffffff?text=Free+Fire",
+    "image": "src/assets/Free Fire.jpg",
     "description": "Free Fire เป็นเกมยิงปืนแนวเอาชีวิตรอด",
     "link": "https://ff.garena.in.th/"
   },
   {
     "id": 2,
     "name": "RoV",
-    "image": "https://placehold.co/300x400/212121/ffffff?text=RoV",
+    "image": "src/assets/rov.webp",
     "description": "RoV เป็นเกมแนว MOBA แบบ 5V5",
     "link": "https://rov.garena.in.th/"
   },
   {
     "id": 3,
     "name": "Speed Drifters",
-    "image": "https://placehold.co/300x400/212121/ffffff?text=Speed+Drifters",
+    "image": "src/assets/Speed-Drifters.jpg",
     "description": "Speed Drifters เป็นเกมแข่งรถสุดมันส์",
     "link": "https://speed.garena.in.th/"
   },
   {
     "id": 4,
     "name": "Call of Duty Mobile",
-    "image": "https://placehold.co/300x400/212121/ffffff?text=Call+of+Duty+Mobile",
+    "image": "src/assets/call-of-duty.webp",
     "description": "Call of Duty Mobile เป็นเกมยิงปืนสุดฮิต",
     "link": "https://www.callofduty.com/mobile"
-  },
-  {
-    "id": 5,
-    "name": "Black Clover",
-    "image": "https://placehold.co/300x400/212121/ffffff?text=Black+Clover",
-    "description": "Black Clover เป็นเกม RPG สุดแฟนตาซี",
-    "link": "https://bcm.garena.in.th/"
   }
 ]
