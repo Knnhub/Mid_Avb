@@ -51,42 +51,6 @@
         </div>
       }
     </div>
-  } @else if (showGameDetailScreen()) {
-    <div class="game-detail-page">
-      @if (selectedGame()) {
-        <div class="game-detail-card">
-          <img [src]="selectedGame()!.image" [alt]="selectedGame()!.name" class="game-detail-image">
-          <h1>{{ selectedGame()!.name }}</h1>
-          <p>{{ selectedGame()!.description }}</p>
-          <a [href]="selectedGame()!.link" target="_blank">เว็บไซต์เกม</a>
-          
-          <div class="top-up-form">
-            <h3>เติมเงินด่วน</h3>
-            <form (ngSubmit)="topUp()">
-              <div class="form-group">
-                <label for="userId">ID ผู้ใช้</label>
-                <input type="text" id="userId" [(ngModel)]="topUpUserId" name="userId" required>
-              </div>
-              <div class="form-group">
-                <label for="amount">จำนวนเงิน (บาท)</label>
-                <input type="number" id="amount" [(ngModel)]="topUpAmount" name="amount" required>
-              </div>
-              <button type="submit">เติมเงินด่วน</button>
-            </form>
-          </div>
-          <button class="back-button" (click)="showHome()">กลับสู่หน้ารายการเกม</button>
-        </div>
-      }
-    </div>
-  } @else if (showNotFoundScreen()) {
-    <div class="not-found-page">
-      <div class="not-found-card">
-        <h1>404</h1>
-        <h2>ไม่พบหน้าเพจที่ต้องการ</h2>
-        <p>ขออภัย, หน้าเพจที่คุณพยายามเข้าถึงไม่มีอยู่</p>
-        <button (click)="showHome()">กลับสู่หน้าหลัก</button>
-      </div>
-    </div>
   } @else {
     <div class="game-list-container">
       @if (isLoggedIn() && currentUser()) {
@@ -104,6 +68,34 @@
           </div>
         }
       </div>
+      @if (showGameDetailScreen()) {
+        <div class="game-detail-card-section">
+          @if (selectedGame()) {
+            <div class="game-detail-card">
+              <img [src]="selectedGame()!.image" [alt]="selectedGame()!.name" class="game-detail-image">
+              <h1>{{ selectedGame()!.name }}</h1>
+              <p>{{ selectedGame()!.description }}</p>
+              <a [href]="selectedGame()!.link" target="_blank">เว็บไซต์เกม</a>
+              
+              <div class="top-up-form">
+                <h3>เติมเงินด่วน</h3>
+                <form (ngSubmit)="topUp()">
+                  <div class="form-group">
+                    <label for="userId">ID ผู้ใช้</label>
+                    <input type="text" id="userId" [(ngModel)]="topUpUserId" name="userId" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount">จำนวนเงิน (บาท)</label>
+                    <input type="number" id="amount" [(ngModel)]="topUpAmount" name="amount" required>
+                  </div>
+                  <button type="submit">เติมเงินด่วน</button>
+                </form>
+              </div>
+              <button class="back-button" (click)="showHome()">กลับสู่หน้ารายการเกม</button>
+            </div>
+          }
+        </div>
+      }
     </div>
   }
 </main>

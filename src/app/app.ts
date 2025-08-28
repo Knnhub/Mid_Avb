@@ -134,6 +134,7 @@ export class App {
     this.showProfileScreen.set(false);
     this.showLoginScreen.set(false);
     this.showGameDetailScreen.set(false);
+    this.selectedGame.set(null);
   }
 
   selectGame(game: Game) {

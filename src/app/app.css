@@ -11,7 +11,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #34495e;
+  background-color: #5c7a99;
   color: #fff;
 }
 
@@ -34,18 +34,40 @@ main {
   padding: 2rem;
 }
 
+.game-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.welcome-message {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #e67e22;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.greeting {
+  font-size: 1.2rem;
+  color: #bdc3c7;
+  margin-top: 0;
+  text-align: center;
+}
+
 .game-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
+  padding-top: 2rem;
 }
 
 .game-card {
-  background-color: #34495e;
+  background-color: #91a2b4;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  cursor: pointer;
 }
 
 .game-card:hover {
@@ -72,21 +94,118 @@ main {
   color: #bdc3c7;
 }
 
-.login-page, .profile-page {
+.game-detail-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 70px);
+}
+
+.game-detail-card-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.game-detail-card {
+  max-width: 600px;
+  background-color: #91a2b4;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.game-detail-image {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.top-up-form {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #91a2b4;
+  border-radius: 8px;
+}
+
+.top-up-form h3 {
+  margin-top: 0;
+  color: #e67e22;
+}
+
+.top-up-form .form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.top-up-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ecf0f1;
+}
+
+.top-up-form input[type="text"],
+.top-up-form input[type="number"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #91a2b4;
+  border-radius: 4px;
+  background-color: #91a2b4;
+  color: #ecf0f1;
+  box-sizing: border-box;
+}
+
+.top-up-form input[type="text"]:focus,
+.top-up-form input[type="number"]:focus {
+  outline: none;
+  border-color: #e67e22;
+}
+
+.top-up-form button, .back-button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #e67e22;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1rem;
+}
+
+.top-up-form button:hover, .back-button:hover {
+  background-color: #d35400;
+}
+
+.login-page, .profile-page, .not-found-page {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 70px);
 }
 
-.login-card, .profile-card {
+.login-card, .profile-card, .not-found-card {
   width: 100%;
   max-width: 400px;
-  background-color: #34495e;
+  background-color: #91a2b4;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+}
+
+.not-found-card h1 {
+  font-size: 4rem;
+  color: #e74c3c;
+  margin: 0;
+}
+
+.not-found-card h2 {
+  margin-top: 0;
 }
 
 .profile-image {
